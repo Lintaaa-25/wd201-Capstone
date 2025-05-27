@@ -10,10 +10,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      
       chapterName: {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      
       chapterDescription: {
         type: Sequelize.TEXT,
       },
