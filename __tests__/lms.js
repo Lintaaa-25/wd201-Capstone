@@ -168,7 +168,6 @@ describe("LMS test suite", () => {
     res = await agent.get("/signout");
     expect(res.statusCode).toBe(302);
 
-    
     res = await agent.get("/teacher-dashboard");
     expect(res.statusCode).toBe(302);
 
