@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       chapterName: DataTypes.STRING,
       chapterDescription: DataTypes.TEXT,
     },
+    
     {
       sequelize,
       modelName: "Chapters",
