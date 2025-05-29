@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Courses.belongsTo(models.User, {
+      Course.belongsTo(models.User, {
         foreignKey: "userId",
       });
 
-      Courses.hasMany(models.Chapter, {
+      Course.hasMany(models.Chapter, {
         foreignKey: "courseId",
       });
     }
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Courses.init(
+  Course.init(
     {
       courseName: DataTypes.STRING,
       courseDescription: DataTypes.TEXT,
