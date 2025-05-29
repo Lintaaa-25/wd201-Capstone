@@ -6,67 +6,94 @@
   <meta name="csrf-token" content="<%= csrfToken %>">
   <link rel="stylesheet" href="./css/styles.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: {
+          sans: ['Poppins', 'sans-serif'],
+        },
+        extend: {
+          colors: {
+            primary: '#0F172A',
+            accent: '#6366F1',
+            highlight: '#10B981',
+            warm: '#F59E0B',
+            cool: '#06B6D4',
+            soft: '#E5E7EB',
+            light: '#F9FAFB'
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="/images/icons8-books-doodle-favicons/Web/icons8-books-doodle-16.png" />
   <title><%= title %></title>
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <div class="grid grid-cols-4">
-    <div class="col-start-2 col-span-2">
-      <%- include('header.ejs') %>
 
-      <div class="py-4 space-y-4">
-        <div class="flex justify-between items-center border-b-2 pb-2">
-          <h1 class="text-xl font-bold text-gray-700">
-            Welcome,<br> Educator: <%= currentUser.firstName %> <%= currentUser.lastName %>
-          </h1>
-          <a href="/signout" class="text-green-600 text-lg font-semibold hover:underline">Signout</a>
-        </div>
+<body class="bg-light font-sans text-primary min-h-screen">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <!-- Header Include -->
+    <%- include('header.ejs') %>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-yellow-100 p-4 rounded">
-          <a href="/createcourse" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 text-center font-medium">Create a New Course</a>
-          <a href="/teaMyCourses" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 text-center font-medium">My Courses</a>
-          <a href="/view-report" class="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700 text-center font-medium">View Report</a>
-          <a href="/changePassword" class="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 text-center font-medium">Change Password</a>
-        </div>
+    <!-- Greeting Section -->
+    <div class="flex justify-between items-center border-b pb-6 mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-primary">Welcome, Educator</h1>
+        <p class="text-secondary text-sm mt-1"><%= currentUser.firstName %> <%= currentUser.lastName %></p>
+      </div>
+      <a href="/signout" class="text-red-600 font-semibold hover:underline">Sign out</a>
+    </div>
 
-        <div>
-          <label for="search" class="block text-sm font-bold text-gray-700 mt-4 mb-2">Search Courses:</label>
-          <input type="text" id="search" name="search" class="w-full p-2 border border-gray-300 rounded" placeholder="Type to search..." />
-        </div>
+    <!-- Navigation Actions -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mb-10">
+      <a href="/createcourse" class="bg-highlight text-white px-4 py-4 rounded-xl shadow-md text-center hover:bg-emerald-600 transition font-semibold">➕ Create Course</a>
+      <a href="/teaMyCourses" class="bg-accent text-white px-4 py-4 rounded-xl shadow-md text-center hover:bg-indigo-700 transition font-semibold">📘 My Courses</a>
+      <a href="/view-report" class="bg-warm text-white px-4 py-4 rounded-xl shadow-md text-center hover:bg-yellow-600 transition font-semibold">📊 View Report</a>
+      <a href="/changePassword" class="bg-red-500 text-white px-4 py-4 rounded-xl shadow-md text-center hover:bg-red-600 transition font-semibold">🔒 Change Password</a>
+    </div>
 
-        <div id="courseContainer" class="space-y-4">
-          <% for (let course of courses) { %>
-            <a href="/view-course/<%= course.id %>?currentUserId=<%= encodeURIComponent(currentUser.id) %>" class="course-card bg-white border border-gray-300 p-4 rounded-lg shadow hover:shadow-xl transition hidden">
-              <div class="flex justify-between items-center">
-                <h2 class="course-name text-xl font-semibold text-blue-700"><%= course.courseName %></h2>
-                <svg class="w-6 h-6 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-              <% for (let user of users) { %>
-                <% if (user.id === course.userId) { %>
-                  <p class="text-sm text-gray-600 mt-2">By <%= user.firstName %> <%= user.lastName %></p>
-                <% } %>
-              <% } %>
-            </a>
-          <% } %>
-        </div>
+    <!-- Search -->
+    <div class="mb-6">
+      <label for="search" class="block text-sm font-medium text-secondary mb-1">Search Courses:</label>
+      <input type="text" id="search" name="search" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Type course name..." />
+    </div>
 
-        <%- include('displayCourses.ejs', { currentUser, courses, users }) %>
-
-        <% if (messages && messages.error && messages.error.length > 0) { %>
-          <div class="mt-4 space-y-2">
-            <% for (var i = 0; i < messages.error.length; i++) { %>
-              <p class="bg-red-100 text-red-700 border border-red-300 px-4 py-2 rounded">
-                <%= messages.error[i] %>
-              </p>
-            <% } %>
+    <!-- Course Cards -->
+    <div id="courseContainer" class="space-y-6">
+      <% for (let course of courses) { %>
+        <a href="/view-course/<%= course.id %>?currentUserId=<%= encodeURIComponent(currentUser.id) %>" class="course-card bg-white border border-gray-200 p-5 rounded-xl shadow hover:shadow-xl transition hidden">
+          <div class="flex justify-between items-center mb-2">
+            <h2 class="course-name text-xl font-semibold text-accent"><%= course.courseName %></h2>
+            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
           </div>
+          <% for (let user of users) { %>
+            <% if (user.id === course.userId) { %>
+              <p class="text-sm text-secondary">👨‍🏫 By <%= user.firstName %> <%= user.lastName %></p>
+            <% } %>
+          <% } %>
+        </a>
+      <% } %>
+    </div>
+
+    <!-- Full Course List -->
+    <%- include('displayCourses.ejs', { currentUser, courses, users }) %>
+
+    <!-- Flash Messages -->
+    <% if (messages && messages.error && messages.error.length > 0) { %>
+      <div class="mt-6 space-y-3">
+        <% for (var i = 0; i < messages.error.length; i++) { %>
+          <p class="bg-red-100 text-red-700 border border-red-300 px-4 py-2 rounded-lg">
+            <%= messages.error[i] %>
+          </p>
         <% } %>
       </div>
-    </div>
+    <% } %>
   </div>
 
+  <!-- Filtering Script -->
   <script>
     const searchInput = document.getElementById('search');
     searchInput.addEventListener('input', () => {
