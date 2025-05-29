@@ -1,3 +1,4 @@
+// models/quiz.js
 module.exports = (sequelize, DataTypes) => {
   const Quiz = sequelize.define('Quiz', {
     chapterId: {
