@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   StudentQuizAttempt.associate = models => {
-    StudentQuizAttempt.belongsTo(models.User, { foreignKey: 'userId' });
+    StudentQuizAttempt.belongsTo(models.Users, { foreignKey: 'userId' });
     StudentQuizAttempt.belongsTo(models.Quiz, { foreignKey: 'quizId' });
   };
 
