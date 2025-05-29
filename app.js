@@ -255,35 +255,50 @@ app.get('/quiz', async (req, res) => {
 
 app.post('/quiz/submit', async (req, res) => {
   try {
-    const { answers } = req.body;
+    const answers = req.body.answers || {};
 
-    const quizzes = await db.Quiz.findAll({ where: { chapterId: 1 } });
+    // Define correct answers hardcoded by quiz ID (or optionally fetched once)
+    const correctAnswers = {
+      1: "A",
+      2: "C",
+      3: "A",
+      4: "A",
+      5: "C"
+    };
 
-    const results = quizzes.map(quiz => {
-      const selected = answers[quiz.id];
-      const isCorrect = selected === quiz.correctAnswer;
+    const questions = {
+      1: "What does HTML stand for?",
+      2: "Which of the following is a JavaScript framework?",
+      3: "Which symbol is used for comments in JavaScript?",
+      4: "What is the correct way to declare a variable in JavaScript?",
+      5: "What does CSS stand for?"
+    };
+
+    const results = Object.keys(correctAnswers).map((idStr, index) => {
+      const id = parseInt(idStr);
+      const selected = answers[id] || "No answer";
+      const correct = correctAnswers[id];
       return {
-        question: quiz.question,
-        selectedAnswer: selected || 'No answer',
-        correctAnswer: quiz.correctAnswer,
-        isCorrect
+        question: questions[id],
+        selectedAnswer: selected,
+        correctAnswer: correct,
+        isCorrect: selected === correct
       };
     });
 
     const score = results.filter(r => r.isCorrect).length;
 
-    res.render('quiz-results', {
-      title: 'Quiz Results',
+    res.render("quiz-results", {
+      title: "Quiz Results",
       results,
       score,
-      total: quizzes.length
+      total: results.length
     });
-  } catch (error) {
-    console.error("Quiz submission error:", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    console.error("Quiz submission error:", err);
+    res.status(500).send("Something went wrong");
   }
 });
-
 
 
 // Route for updating the password
