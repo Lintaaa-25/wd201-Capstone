@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Users.hasMany(models.Course, {
+      User.hasMany(models.Course, {
         foreignKey: "userId",
       });
 
-      Users.belongsToMany(models.Page, {
+      User.belongsToMany(models.Page, {
         through: models.Enrollment,
         foreignKey: "userId",
       });
     }
   }
-  Users.init(
+  User.init(
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
