@@ -1,9 +1,8 @@
-
 /*eslint-disable no-unused-vars*/
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Page extends Model {
+  class Pages extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,25 +10,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Page.belongsTo(models.Chapter, {
+      Pages.belongsTo(models.Chapters, {
         foreignKey: "chapterId",
       });
 
-      Page.belongsToMany(models.User, {
-        through: models.Enrollment,
+      Pages.belongsToMany(models.Users, {
+        through: models.Enrollments,
         foreignKey: "pageId",
       });
     }
   }
-  Page.init(
+  Pages.init(
     {
       title: DataTypes.STRING,
       content: DataTypes.TEXT,
     },
     {
       sequelize,
-      modelName: "Page",
+      modelName: "Pages",
     },
   );
-  return Page;
+  return Pages;
 };
