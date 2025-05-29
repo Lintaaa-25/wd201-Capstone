@@ -276,16 +276,16 @@ app.post('/quiz/submit', async (req, res) => {
     };
 
     const results = Object.keys(correctAnswers).map((idStr, index) => {
-      const id = parseInt(idStr);
-      const selected = answers[id] || "No answer";
-      const correct = correctAnswers[id];
-      return {
-        question: questions[id],
-        selectedAnswer: selected,
-        correctAnswer: correct,
-        isCorrect: selected === correct
-      };
-    });
+    const selected = answers[idStr] || "No answer";
+    const correct = correctAnswers[idStr];
+    return {
+      question: questions[idStr],
+      selectedAnswer: selected,
+      correctAnswer: correct,
+      isCorrect: selected === correct
+    };
+  });
+
 
     const score = results.filter(r => r.isCorrect).length;
 
