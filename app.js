@@ -275,7 +275,7 @@ app.post('/quiz/submit', async (req, res) => {
       5: "What does CSS stand for?"
     };
 
-    const results = Object.keys(correctAnswers).map((idStr, index) => {
+    const results = Object.keys(correctAnswers).map((idStr) => {
     const selected = answers[idStr] || "No answer";
     const correct = correctAnswers[idStr];
     return {
