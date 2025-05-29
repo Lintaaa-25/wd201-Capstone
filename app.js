@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser("shh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 app.use(flash());
+app.use(express.urlencoded({ extended: true }));
 
 // Configure session middleware
 app.use(
