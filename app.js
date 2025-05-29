@@ -131,7 +131,11 @@ app.get("/login", (request, response) => {
 app.get('/chapter/:chapterId/quiz', async (req, res) => {
   const chapterId = req.params.chapterId;
   const quizzes = await db.Quiz.findAll({ where: { chapterId } });
-  res.render('quiz', { quizzes, currentUser: req.user });
+  res.render('quiz', {
+    quizzes,
+    currentUser: req.user,
+    csrfToken: req.csrfToken(), //  Add this line
+  });
 });
 
 app.post("/users", async (request, response) => {
