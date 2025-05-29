@@ -224,6 +224,18 @@ app.get("/resetpassword", (request, reponse) => {
   });
 });
 
+app.get('/quiz/results', (req, res) => {
+  const results = req.session.quizResults;
+  if (!results) {
+    return res.redirect('/'); // fallback
+  }
+  // Clear results after showing once
+  req.session.quizResults = null;
+
+  res.render('quizResults', { results });
+});
+
+
 app.post('/quiz/submit', async (req, res) => {
   const { answers } = req.body;
   const userId = req.user.id;
@@ -244,8 +256,13 @@ app.post('/quiz/submit', async (req, res) => {
     });
   }
 
-  res.render('quizResults', { results });
+  // Store results temporarily in session
+  req.session.quizResults = results;
+
+  // Redirect to GET page
+  res.redirect('/quiz/results');
 });
+
 
 // Route for updating the password
 app.post("/resetpassword", async (request, response) => {
