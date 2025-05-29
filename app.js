@@ -225,15 +225,18 @@ app.get("/resetpassword", (request, reponse) => {
 });
 
 app.get('/quiz/results', (req, res) => {
-  const results = req.session.quizResults;
-  if (!results) {
-    return res.redirect('/'); // fallback
-  }
-  // Clear results after showing once
-  req.session.quizResults = null;
+  const results = req.session.quizResults || [];
+  const score = results.filter(r => r.isCorrect).length;
+  const total = results.length;
 
-  res.render('quizResults', { results });
+  res.render('quiz-results', {
+    title: 'Quiz Results',
+    results,
+    score,
+    total
+  });
 });
+
 
 app.get('/quiz', async (req, res) => {
   try {
