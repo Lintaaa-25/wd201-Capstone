@@ -239,67 +239,99 @@ app.get('/quiz/results', (req, res) => {
 });
 
 
-app.get('/quiz', async (req, res) => {
-  try {
-    const quizzes = await db.Quiz.findAll({ where: { chapterId: 1 } }); // fixed chapterId
-    res.render('quiz', {
-      title: "Take Quiz",
-      quizzes,
-      csrfToken: req.csrfToken()
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error loading quiz");
-  }
+app.get('/quiz', (req, res) => {
+  const quizzes = [
+    {
+      id: 1,
+      question: "What does HTML stand for?",
+      optionA: "Hyper Text Markup Language",
+      optionB: "Home Tool Markup Language",
+      optionC: "Hyperlinks and Text Markup Language",
+      optionD: "Hyperlinking Text Markup Logic"
+    },
+    {
+      id: 2,
+      question: "Which of the following is a JavaScript framework?",
+      optionA: "Django",
+      optionB: "Flask",
+      optionC: "React",
+      optionD: "Laravel"
+    },
+    {
+      id: 3,
+      question: "Which symbol is used for comments in JavaScript?",
+      optionA: "//",
+      optionB: "#",
+      optionC: "<!--",
+      optionD: "**"
+    },
+    {
+      id: 4,
+      question: "What is the correct way to declare a variable in JavaScript?",
+      optionA: "var myVar = 5;",
+      optionB: "int myVar = 5;",
+      optionC: "let = 5;",
+      optionD: "myVar := 5;"
+    },
+    {
+      id: 5,
+      question: "What does CSS stand for?",
+      optionA: "Computer Style Sheets",
+      optionB: "Creative Style Sheets",
+      optionC: "Cascading Style Sheets",
+      optionD: "Colorful Style Sheets"
+    },
+  ];
+
+  res.render("quiz", {
+    quizzes,
+    csrfToken: req.csrfToken()
+  });
 });
 
 
-app.post('/quiz/submit', async (req, res) => {
-  try {
-    const answers = req.body.answers || {};
 
-    // Define correct answers hardcoded by quiz ID (or optionally fetched once)
-    const correctAnswers = {
-      1: "A",
-      2: "C",
-      3: "A",
-      4: "A",
-      5: "C"
-    };
+app.post('/quiz/submit', (req, res) => {
+  const answers = req.body.answers || {};
+  console.log("Submitted answers:", answers); // DEBUG
 
-    const questions = {
-      1: "What does HTML stand for?",
-      2: "Which of the following is a JavaScript framework?",
-      3: "Which symbol is used for comments in JavaScript?",
-      4: "What is the correct way to declare a variable in JavaScript?",
-      5: "What does CSS stand for?"
-    };
+  const correctAnswers = {
+    1: "A",
+    2: "C",
+    3: "A",
+    4: "A",
+    5: "C"
+  };
 
-    const results = Object.keys(correctAnswers).map((idStr) => {
-    const selected = answers[idStr] || "No answer";
-    const correct = correctAnswers[idStr];
+  const questions = {
+    1: "What does HTML stand for?",
+    2: "Which of the following is a JavaScript framework?",
+    3: "Which symbol is used for comments in JavaScript?",
+    4: "What is the correct way to declare a variable in JavaScript?",
+    5: "What does CSS stand for?"
+  };
+
+  const results = Object.keys(correctAnswers).map(id => {
+    const selected = answers[id] || "No answer";
+    const correct = correctAnswers[id];
     return {
-      question: questions[idStr],
+      question: questions[id],
       selectedAnswer: selected,
       correctAnswer: correct,
       isCorrect: selected === correct
     };
   });
 
+  const score = results.filter(r => r.isCorrect).length;
 
-    const score = results.filter(r => r.isCorrect).length;
-
-    res.render("quiz-results", {
-      title: "Quiz Results",
-      results,
-      score,
-      total: results.length
-    });
-  } catch (err) {
-    console.error("Quiz submission error:", err);
-    res.status(500).send("Something went wrong");
-  }
+  res.render("quiz-results", {
+    title: "Quiz Results",
+    results,
+    score,
+    total: results.length
+  });
 });
+
 
 
 // Route for updating the password
