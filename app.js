@@ -254,31 +254,36 @@ app.get('/quiz', async (req, res) => {
 
 
 app.post('/quiz/submit', async (req, res) => {
-  const { answers } = req.body;
-  const userId = req.user.id;
-  const results = [];
+  try {
+    const { answers } = req.body;
 
-  for (const quizId in answers) {
-    const quiz = await db.Quiz.findByPk(quizId);
-    const selected = answers[quizId];
-    const isCorrect = quiz.correctAnswer === selected;
+    const quizzes = await db.Quiz.findAll({ where: { chapterId: 1 } });
 
-    await db.StudentQuizAttempt.create({ userId, quizId, selectedAnswer: selected, isCorrect });
-
-    results.push({
-      question: quiz.question,
-      selectedAnswer: selected,
-      correctAnswer: quiz.correctAnswer,
-      isCorrect
+    const results = quizzes.map(quiz => {
+      const selected = answers[quiz.id];
+      const isCorrect = selected === quiz.correctAnswer;
+      return {
+        question: quiz.question,
+        selectedAnswer: selected || 'No answer',
+        correctAnswer: quiz.correctAnswer,
+        isCorrect
+      };
     });
+
+    const score = results.filter(r => r.isCorrect).length;
+
+    res.render('quiz-results', {
+      title: 'Quiz Results',
+      results,
+      score,
+      total: quizzes.length
+    });
+  } catch (error) {
+    console.error("Quiz submission error:", error);
+    res.status(500).send("Internal Server Error");
   }
-
-  // Store results temporarily in session
-  req.session.quizResults = results;
-
-  // Redirect to GET page
-  res.redirect('/quiz/results');
 });
+
 
 
 // Route for updating the password
