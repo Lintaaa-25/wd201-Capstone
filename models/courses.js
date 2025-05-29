@@ -1,9 +1,8 @@
-
 /*eslint-disable no-unused-vars*/
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Course extends Model {
+  class Courses extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Course.belongsTo(models.User, {
+      Courses.belongsTo(models.Users, {
         foreignKey: "userId",
       });
 
-      Course.hasMany(models.Chapter, {
+      Courses.hasMany(models.Chapters, {
         foreignKey: "courseId",
       });
     }
@@ -28,15 +27,15 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Course.init(
+  Courses.init(
     {
       courseName: DataTypes.STRING,
       courseDescription: DataTypes.TEXT,
     },
     {
       sequelize,
-      modelName: "Course",
+      modelName: "Courses",
     },
   );
-  return Course;
+  return Courses;
 };
