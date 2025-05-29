@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Quiz.associate = models => {
-    Quiz.belongsTo(models.Chapter, {
+    Quiz.belongsTo(models.Chapters, {
       foreignKey: 'chapterId',
       onDelete: 'CASCADE'
     });
