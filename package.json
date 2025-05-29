@@ -1,11 +1,10 @@
-
 {
   "name": "learning-management-system",
   "version": "1.0.0",
   "description": "Learning Management System",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js, ejs",
+    "start": "nodemon -e js,ejs",
     "start:prod": "node index.js",
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
@@ -17,7 +16,7 @@
       "prettier --write ."
     ]
   },
-  "author": "Swanand Bhuskute <swanandbhuskute2003@gmail.com>",
+  "author": "Linta <lintababu3@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -26,6 +25,7 @@
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "eslint-plugin-react": "^7.33.2",
     "express": "^4.18.2",
