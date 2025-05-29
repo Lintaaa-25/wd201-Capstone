@@ -235,6 +235,20 @@ app.get('/quiz/results', (req, res) => {
   res.render('quizResults', { results });
 });
 
+app.get('/quiz', async (req, res) => {
+  try {
+    const quizzes = await db.Quiz.findAll({ where: { chapterId: 1 } }); // fixed chapterId
+    res.render('quiz', {
+      title: "Take Quiz",
+      quizzes,
+      csrfToken: req.csrfToken()
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading quiz");
+  }
+});
+
 
 app.post('/quiz/submit', async (req, res) => {
   const { answers } = req.body;
