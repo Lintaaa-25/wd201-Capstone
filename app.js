@@ -1,5 +1,6 @@
 /*eslint-disable no-undef */
 const express = require("express");
+const db = require('./models'); 
 const app = express();
 const path = require("path");
 var csrf = require("tiny-csrf");
@@ -127,6 +128,12 @@ app.get("/login", (request, response) => {
   });
 });
 
+app.get('/chapter/:chapterId/quiz', async (req, res) => {
+  const chapterId = req.params.chapterId;
+  const quizzes = await db.Quiz.findAll({ where: { chapterId } });
+  res.render('quiz', { quizzes, currentUser: req.user });
+});
+
 app.post("/users", async (request, response) => {
   // Similar to your student registration route
   // You can use passport.authenticate after registration to log in the student
@@ -211,6 +218,29 @@ app.get("/resetpassword", (request, reponse) => {
     title: "Reset Password",
     csrfToken: request.csrfToken(),
   });
+});
+
+app.post('/quiz/submit', async (req, res) => {
+  const { answers } = req.body;
+  const userId = req.user.id;
+  const results = [];
+
+  for (const quizId in answers) {
+    const quiz = await db.Quiz.findByPk(quizId);
+    const selected = answers[quizId];
+    const isCorrect = quiz.correctAnswer === selected;
+
+    await db.StudentQuizAttempt.create({ userId, quizId, selectedAnswer: selected, isCorrect });
+
+    results.push({
+      question: quiz.question,
+      selectedAnswer: selected,
+      correctAnswer: quiz.correctAnswer,
+      isCorrect
+    });
+  }
+
+  res.render('quizResults', { results });
 });
 
 // Route for updating the password
