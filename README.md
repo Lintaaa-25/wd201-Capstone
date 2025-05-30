@@ -44,19 +44,21 @@ It provides an interactive platform for **teachers** to create and manage course
 
 ## 🖼️ Screenshots
 
-> Add screenshots to the `screenshots/` folder in your repo and link them below.
+### 🏠 Homepage
+![Homepage](screenshots/homepage.png)
 
 ### 🎓 Student Dashboard
 ![Student Dashboard](screenshots/student-dashboard.png)
 
-### 📖 Course View with Chapters
-![Course View](screenshots/course-details.png)
+### 📚 Enrolled Courses
+![Enrolled Courses](screenshots/enrolled-courses.png)
+
+### 📊 Reports View
+![Reports](screenshots/reports.png)
 
 ### 👨‍🏫 Teacher Dashboard
 ![Teacher Dashboard](screenshots/teacher-dashboard.png)
 
-### ➕ Create Course
-![Create Course](screenshots/create-course.png)
 
 ---
 
