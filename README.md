@@ -37,8 +37,7 @@ It provides an interactive platform for **teachers** to create and manage course
 
 ## 🔗 Live Demo
 
-🌍 [https://your-lms-app.render.com](https://your-lms-app.render.com)  
-> _Replace this with your actual deployed URL._
+🌍 https://www.loom.com/share/3d3457b9452f4b78a329e3bdd5960b1e?sid=e58fe863-57ee-4efb-85ad-d8a0003760de
 
 ---
 
