@@ -1,6 +1,5 @@
 /*eslint-disable no-undef */
 const express = require("express");
-const db = require('./models'); 
 const app = express();
 const path = require("path");
 var csrf = require("tiny-csrf");
@@ -22,7 +21,6 @@ app.use(bodyParser.json());
 app.use(cookieParser("shh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 app.use(flash());
-app.use(express.urlencoded({ extended: true }));
 
 // Configure session middleware
 app.use(
@@ -129,16 +127,6 @@ app.get("/login", (request, response) => {
   });
 });
 
-app.get('/chapter/:chapterId/quiz', async (req, res) => {
-  const chapterId = req.params.chapterId;
-  const quizzes = await db.Quiz.findAll({ where: { chapterId } });
-  res.render('quiz', {
-    quizzes,
-    currentUser: req.user,
-    csrfToken: req.csrfToken(), //  Add this line
-  });
-});
-
 app.post("/users", async (request, response) => {
   // Similar to your student registration route
   // You can use passport.authenticate after registration to log in the student
@@ -224,115 +212,6 @@ app.get("/resetpassword", (request, reponse) => {
     csrfToken: request.csrfToken(),
   });
 });
-
-app.get('/quiz/results', (req, res) => {
-  const results = req.session.quizResults || [];
-  const score = results.filter(r => r.isCorrect).length;
-  const total = results.length;
-
-  res.render('quiz-results', {
-    title: 'Quiz Results',
-    results,
-    score,
-    total
-  });
-});
-
-
-app.get('/quiz', (req, res) => {
-  const quizzes = [
-    {
-      id: 1,
-      question: "What does HTML stand for?",
-      optionA: "Hyper Text Markup Language",
-      optionB: "Home Tool Markup Language",
-      optionC: "Hyperlinks and Text Markup Language",
-      optionD: "Hyperlinking Text Markup Logic"
-    },
-    {
-      id: 2,
-      question: "Which of the following is a JavaScript framework?",
-      optionA: "Django",
-      optionB: "Flask",
-      optionC: "React",
-      optionD: "Laravel"
-    },
-    {
-      id: 3,
-      question: "Which symbol is used for comments in JavaScript?",
-      optionA: "//",
-      optionB: "#",
-      optionC: "<!--",
-      optionD: "**"
-    },
-    {
-      id: 4,
-      question: "What is the correct way to declare a variable in JavaScript?",
-      optionA: "var myVar = 5;",
-      optionB: "int myVar = 5;",
-      optionC: "let = 5;",
-      optionD: "myVar := 5;"
-    },
-    {
-      id: 5,
-      question: "What does CSS stand for?",
-      optionA: "Computer Style Sheets",
-      optionB: "Creative Style Sheets",
-      optionC: "Cascading Style Sheets",
-      optionD: "Colorful Style Sheets"
-    },
-  ];
-
-  res.render("quiz", {
-    quizzes,
-    csrfToken: req.csrfToken()
-  });
-});
-
-
-
-app.post('/quiz/submit', (req, res) => {
-  const answers = req.body.answers || {};
-  console.log("Submitted answers:", answers); // DEBUG
-
-  const correctAnswers = {
-    1: "A",
-    2: "C",
-    3: "A",
-    4: "A",
-    5: "C"
-  };
-
-  const questions = {
-    1: "What does HTML stand for?",
-    2: "Which of the following is a JavaScript framework?",
-    3: "Which symbol is used for comments in JavaScript?",
-    4: "What is the correct way to declare a variable in JavaScript?",
-    5: "What does CSS stand for?"
-  };
-
-  const results = Object.keys(correctAnswers).map(id => {
-    const selected = answers[id] || "No answer";
-    const correct = correctAnswers[id];
-    return {
-      question: questions[id],
-      selectedAnswer: selected,
-      correctAnswer: correct,
-      isCorrect: selected === correct
-    };
-  });
-
-  const score = results.filter(r => r.isCorrect).length;
-
-  res.render("quiz-results", {
-    title: "Quiz Results",
-    results,
-    score,
-    total: results.length
-  });
-});
-
-
 
 // Route for updating the password
 app.post("/resetpassword", async (request, response) => {
