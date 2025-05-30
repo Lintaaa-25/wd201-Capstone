@@ -1,45 +1,37 @@
-📚 Learning Management System (LMS)
-This is a full-featured Learning Management System built using Node.js, Express, EJS, PostgreSQL, and Sequelize.
+# 📚 Learning Management System (LMS)
 
-It provides an interactive platform for teachers to create and manage courses, chapters, and lesson content (pages), and for students to enroll, track their progress, and learn efficiently.
+A full-featured LMS built with **Node.js**, **Express**, **EJS**, **PostgreSQL**, and **Sequelize**.
 
-✨ Key Features
-👨‍🏫 Teacher Accounts
+This platform allows **teachers** to create and manage courses, and **students** to enroll, learn, and track their progress interactively.
 
-  .Sign up and manage your educator profile
-  
-  .Create courses, chapters, and pages with rich content
-  
-  .Monitor student enrollment and completion reports
+---
 
-👩‍🎓 Student Accounts
+## ✨ Key Features
 
-  .Explore all available courses
-  
-  .Enroll in courses of interest
-  
-  .View and complete chapter pages step-by-step
+### 👨‍🏫 Teacher Accounts
+- Sign up and manage your educator profile
+- Create courses, chapters, and pages with rich content
+- Monitor student enrollment and completion reports
 
-  .Track course completion progress with percentage indicators
+### 👩‍🎓 Student Accounts
+- Browse and explore all available courses
+- Enroll in courses of interest
+- View and complete chapter pages step-by-step
+- Track course completion progress with percentage indicators
 
-🔐 Authentication & Role-based Access
+### 🔐 Authentication & Role-Based Access
+- Secure login and signup system
+- Role-based dashboard (teacher vs. student)
+- Password reset and change functionality
 
-  .Secure login and signup system
-  
-  .Role-based redirection and dashboard (teacher vs. student)
-  
-  .Password reset and change support
+### 📊 Progress Tracking
+- Completion tracking per page, chapter, and course
+- Teachers can view performance reports of enrolled students
 
-📊 Progress Tracking
+### 🛡️ Security
+- CSRF protection enabled
+- Input validation and form sanitization
+- Restricted access for unauthorized users
 
-  .Enrollments and completions tracked per page, chapter, and course
-  
-  .Teachers can access a performance report of enrolled students
+---
 
-🛡️ Security
-
-  .CSRF protection
-  
-  .Input validation and form sanitation
-  
-  .Access restriction for unauthorized users
