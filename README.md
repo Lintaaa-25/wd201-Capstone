@@ -35,11 +35,6 @@ It provides an interactive platform for **teachers** to create and manage course
 
 ---
 
-## 🔗 Live Demo
-
-🌍 https://www.loom.com/share/3d3457b9452f4b78a329e3bdd5960b1e?sid=e58fe863-57ee-4efb-85ad-d8a0003760de
-
----
 
 ## 🖼️ Screenshots
 
@@ -64,8 +59,7 @@ It provides an interactive platform for **teachers** to create and manage course
 ## ▶️ Video Screencast
 
 📽️ Watch a walkthrough of the LMS platform here:  
-👉 [Watch on YouTube](https://www.youtube.com/watch?v=your-video-id)  
-> _Replace with actual video link (YouTube, Loom, Vimeo, etc.)_
+👉 https://www.loom.com/share/3d3457b9452f4b78a329e3bdd5960b1e?sid=e58fe863-57ee-4efb-85ad-d8a0003760de
 
 ---
 
