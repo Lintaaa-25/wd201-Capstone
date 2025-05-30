@@ -81,8 +81,8 @@ It provides an interactive platform for **teachers** to create and manage course
 ## 🛠️ Setup Instructions
 
 ```bash
-git clone https://github.com/yourusername/lms-project.git
-cd lms-project
+git clone https://github.com/Lintaaa-25/wd201-Capstone.git
+cd wd201-Capstone
 npm install
 npx sequelize db:migrate
 npm start
